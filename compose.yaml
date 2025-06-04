@@ -1,0 +1,17 @@
+services:
+  conceptnavigator-quiz-service:
+    build:
+      context: ./QuizGenerationService
+      dockerfile: Dockerfile
+    container_name: conceptnavigator-quiz-service
+    ports:
+      - "5001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - conceptnavigator-network
+
+networks: 
+  conceptnavigator-network:
+    driver: bridge
