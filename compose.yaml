@@ -1,4 +1,20 @@
 services:
+  conceptnavigator-api-gateway:
+    build:
+      context: ./ApiGateway
+      dockerfile: Dockerfile
+    container_name: conceptnavigator-api-gateway
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - QUIZ_SERVICE_URL=http://conceptnavigator-quiz-service/api/quiz
+    networks:
+      - conceptnavigator-network
+    depends_on:
+      - conceptnavigator-quiz-service
+
   conceptnavigator-quiz-service:
     build:
       context: ./QuizGenerationService
