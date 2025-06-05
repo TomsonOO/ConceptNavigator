@@ -1,0 +1,9 @@
+<div class="bg-white rounded-lg shadow-md p-6">
+  <h2 class="text-2xl font-semibold text-gray-700 mb-6">Quiz: {{ quiz.topic }}</h2>
+  
+  <app-quiz-question 
+    *ngFor="let question of quiz.questions; let i = index"
+    [question]="question"
+    [questionNumber]="i + 1">
+  </app-quiz-question>
+</div> 
