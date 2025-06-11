@@ -1,9 +1,33 @@
-<div class="bg-white rounded-lg shadow-md p-6">
-  <h2 class="text-2xl font-semibold text-gray-700 mb-6">Quiz: {{ quiz.topic }}</h2>
+<div class="glass-effect rounded-3xl p-8 card-hover">
+  <div class="text-center mb-8">
+    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-teal-500 to-blue-600 mb-4">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+    </div>
+    <h2 class="font-serif text-4xl font-bold text-white mb-2">
+      {{ quiz.topic }}
+    </h2>
+    <div class="w-32 h-1 bg-gradient-to-r from-teal-400 to-blue-500 mx-auto rounded-full mb-4"></div>
+    <p class="text-white/80 text-lg">
+      {{ quiz.questions.length }} Questions
+    </p>
+  </div>
   
-  <app-quiz-question 
-    *ngFor="let question of quiz.questions; let i = index"
-    [question]="question"
-    [questionNumber]="i + 1">
-  </app-quiz-question>
+  <div class="space-y-6">
+    <app-quiz-question 
+      *ngFor="let question of quiz.questions; let i = index"
+      [question]="question"
+      [questionNumber]="i + 1"
+      class="block">
+    </app-quiz-question>
+  </div>
+
+  <div class="mt-8 text-center">
+    <div class="glass-effect rounded-2xl p-6 inline-block">
+      <p class="text-white/70 text-sm italic">
+        "Knowledge is the beginning of wisdom, understanding is its completion."
+      </p>
+    </div>
+  </div>
 </div> 

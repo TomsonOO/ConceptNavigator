@@ -1,15 +1,42 @@
-<div class="mb-8 p-6 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-  <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ questionNumber }}. {{ question.question }}</h3>
-  
-  <div class="space-y-2 mb-4">
-    <div *ngFor="let option of question.options; let j = index" class="text-gray-700">
-      {{ getOptionLabel(j) }}. {{ option }}
+<div class="question-card rounded-2xl p-6 mb-6 card-hover">
+  <div class="flex items-start space-x-4 mb-6">
+    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r from-teal-600 to-blue-700 flex items-center justify-center">
+      <span class="text-white font-bold text-lg">{{ questionNumber }}</span>
+    </div>
+    <div class="flex-1">
+      <h3 class="font-serif text-xl font-semibold text-gray-800 leading-relaxed">
+        {{ question.question }}
+      </h3>
     </div>
   </div>
   
-  <div class="p-3 bg-green-100 border border-green-200 rounded-md">
-    <span class="text-green-800 font-medium">
-      Correct Answer: {{ getOptionLabel(question.correctAnswerIndex) }}
-    </span>
+  <div class="ml-14 space-y-3 mb-6">
+    <div *ngFor="let option of question.options; let j = index" 
+         class="option-card rounded-xl p-4 cursor-pointer">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+          <span class="text-white font-medium text-sm">{{ getOptionLabel(j) }}</span>
+        </div>
+        <span class="text-gray-700 font-medium">{{ option }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ml-14">
+    <div class="answer-reveal rounded-xl p-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="text-emerald-800 font-semibold text-sm">Answer:</span>
+          <span class="text-emerald-800 font-bold ml-2">
+            {{ getOptionLabel(question.correctAnswerIndex) }}. {{ question.options[question.correctAnswerIndex] }}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </div> 
