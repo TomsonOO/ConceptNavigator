@@ -2,6 +2,7 @@ export interface QuizRequest {
   topic: string;
   difficulty: string;
   questionCount: number;
+  language: string;
 }
 
 export interface QuizQuestion {

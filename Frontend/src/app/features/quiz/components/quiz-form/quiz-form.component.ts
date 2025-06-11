@@ -12,6 +12,7 @@ export class QuizFormComponent {
   topic = '';
   difficulty = 'medium';
   questionCount = 5;
+  language = 'polish';
   loading = false;
 
   onGenerateQuiz() {
@@ -20,7 +21,8 @@ export class QuizFormComponent {
     const request: QuizRequest = {
       topic: this.topic,
       difficulty: this.difficulty,
-      questionCount: this.questionCount
+      questionCount: this.questionCount,
+      language: this.language
     };
 
     this.generateQuiz.emit(request);
