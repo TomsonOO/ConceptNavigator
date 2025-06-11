@@ -20,7 +20,11 @@ public class GenerateQuizHandler
 
     public async Task<Quiz> Handle(GenerateQuizQuery query)
     {
-        var prompt = $"Generate a {query.Difficulty} level quiz about {query.Topic} with {query.QuestionCount} multiple choice questions. Return ONLY valid JSON in this exact format: {{\"questions\":[{{\"question\":\"...\",\"options\":[\"A\",\"B\",\"C\",\"D\"],\"correctAnswerIndex\":0}}]}}";
+        var languageInstruction = query.Language.ToLower() == "polish" 
+            ? "Generate questions and answers in Polish language." 
+            : "Generate questions and answers in English language.";
+
+        var prompt = $"{languageInstruction} Generate a {query.Difficulty} level quiz about {query.Topic} with {query.QuestionCount} multiple choice questions. Return ONLY valid JSON in this exact format: {{\"questions\":[{{\"question\":\"...\",\"options\":[\"A\",\"B\",\"C\",\"D\"],\"correctAnswerIndex\":0}}]}}";
 
         var requestBody = new
         {

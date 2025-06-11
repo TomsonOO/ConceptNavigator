@@ -1,0 +1,61 @@
+<div class="question-card rounded-2xl p-6 mb-6">
+  <div class="flex items-start space-x-4 mb-6">
+    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r from-teal-600 to-blue-700 flex items-center justify-center">
+      <span class="text-white font-bold text-lg">{{ questionNumber }}</span>
+    </div>
+    <div class="flex-1">
+      <h3 class="font-serif text-xl font-semibold text-gray-800 leading-relaxed">
+        {{ question.question }}
+      </h3>
+    </div>
+  </div>
+  
+  <div class="ml-14 space-y-3 mb-6">
+    <div *ngFor="let option of question.options; let j = index" 
+         class="option-card rounded-xl p-4 cursor-pointer transition-all duration-200"
+         [class.selected-option]="isSelectedAnswer(j) && !showAnswer"
+         [class.correct-option]="showAnswer && isCorrectAnswer(j)"
+         [class.incorrect-option]="showAnswer && isSelectedAnswer(j) && !isCorrectAnswer(j)"
+         [class.disabled-option]="showAnswer"
+         (click)="selectOption(j)">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+             [class.bg-gradient-to-r]="!showAnswer"
+             [class.from-teal-500]="!showAnswer"
+             [class.to-blue-600]="!showAnswer"
+             [class.bg-emerald-500]="showAnswer && isCorrectAnswer(j)"
+             [class.bg-red-500]="showAnswer && isSelectedAnswer(j) && !isCorrectAnswer(j)"
+             [class.bg-gray-400]="showAnswer && !isSelectedAnswer(j) && !isCorrectAnswer(j)">
+          <span class="text-white font-medium text-sm">{{ getOptionLabel(j) }}</span>
+        </div>
+        <span class="text-gray-700 font-medium">{{ option }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ml-14 min-h-[60px] flex items-center">
+    <div *ngIf="!showAnswer && selectedAnswer !== null">
+      <button 
+        (click)="revealAnswer()"
+        class="bg-gradient-to-r from-teal-600 to-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:from-teal-700 hover:to-blue-800 transition-all duration-200">
+        Reveal Answer
+      </button>
+    </div>
+    
+    <div *ngIf="showAnswer" class="answer-reveal rounded-xl p-4 w-full">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="text-emerald-800 font-semibold text-sm">Correct Answer:</span>
+          <span class="text-emerald-800 font-bold ml-2">
+            {{ question.options[question.correctAnswerIndex] }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

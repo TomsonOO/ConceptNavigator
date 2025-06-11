@@ -1,4 +1,16 @@
 services:
+  conceptnavigator-frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: conceptnavigator-frontend
+    ports:
+      - "4200:80"
+    networks:
+      - conceptnavigator-network
+    depends_on:
+      - conceptnavigator-api-gateway
+
   conceptnavigator-api-gateway:
     build:
       context: ./ApiGateway
