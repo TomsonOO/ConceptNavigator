@@ -41,12 +41,11 @@ body {
 }
 
 .card-hover {
-  transition: all 0.4s ease;
+  transition: box-shadow 0.4s ease;
 }
 
 .card-hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 .question-card {
@@ -248,9 +247,5 @@ body {
   
   .glass-effect {
     backdrop-filter: blur(10px);
-  }
-  
-  .card-hover:hover {
-    transform: translateY(-4px);
   }
 }
