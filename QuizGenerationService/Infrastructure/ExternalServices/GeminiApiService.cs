@@ -85,8 +85,7 @@ public class GeminiApiService
         
         var options = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            PropertyNameCaseInsensitive = true
         };
         
         var geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(responseContent, options);
@@ -100,7 +99,8 @@ public class GeminiApiService
             throw new InvalidOperationException("No content in Gemini response");
         }
 
-        var content = geminiResponse.Candidates[0].Content?.Parts?[0]?.Text;
+        var candidate = geminiResponse.Candidates[0];
+        var content = candidate.Content?.Parts?[0]?.Text;
         
         _logger.LogInformation("Extracted content length: {Length}", content?.Length ?? 0);
         if (!string.IsNullOrEmpty(content))
@@ -111,8 +111,7 @@ public class GeminiApiService
         
         if (string.IsNullOrEmpty(content))
         {
-            _logger.LogError("Empty content from Gemini API. Candidate structure: {@Candidate}", 
-                geminiResponse.Candidates[0]);
+            _logger.LogError("Empty content from Gemini API. Candidate structure: {@Candidate}", candidate);
             throw new InvalidOperationException("Empty content from Gemini API");
         }
 

@@ -1,6 +1,5 @@
 using QuizGenerationService.Application.DTOs;
 using QuizGenerationService.Application.Interfaces;
-using QuizGenerationService.Application.Mapping;
 using QuizGenerationService.Application.Validation;
 using QuizGenerationService.Infrastructure.Factories;
 
@@ -9,13 +8,13 @@ namespace QuizGenerationService.Application.Services;
 public class QuizGenerationService : IQuizGenerationService
 {
     private readonly QuizGenerationStrategyFactory _strategyFactory;
-    private readonly QuizMappingService _mappingService;
+    private readonly IQuizMappingService _mappingService;
     private readonly QuizRequestValidator _validator;
     private readonly ILogger<QuizGenerationService> _logger;
 
     public QuizGenerationService(
         QuizGenerationStrategyFactory strategyFactory,
-        QuizMappingService mappingService,
+        IQuizMappingService mappingService,
         QuizRequestValidator validator,
         ILogger<QuizGenerationService> logger)
     {
