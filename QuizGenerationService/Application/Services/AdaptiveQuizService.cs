@@ -58,7 +58,7 @@ public class AdaptiveQuizService : IAdaptiveQuizService
             
             await UpdateSessionWithNewQuestionsAsync(session, quiz.Questions);
             
-            var response = MapToResponseDto(quiz, adaptiveRequest);
+            var response = MapToResponseDto(quiz, adaptiveRequest, session);
             
             _logger.LogInformation("Successfully generated {QuestionCount} adaptive questions for session {SessionId}, " +
                                  "personalization: {WasPersonalized}, adaptation score: {Score:F2}", 
@@ -178,7 +178,7 @@ public class AdaptiveQuizService : IAdaptiveQuizService
                        newQuestions.Count, session.Id, session.Questions.Count);
     }
 
-    private AdaptiveQuizResponseDto MapToResponseDto(Quiz quiz, AdaptiveQuizRequest adaptiveRequest)
+    private AdaptiveQuizResponseDto MapToResponseDto(Quiz quiz, AdaptiveQuizRequest adaptiveRequest, QuizSession session)
     {
         var questionDtos = quiz.Questions.Select(_mappingService.MapToQuizQuestionDto).ToList();
         
@@ -196,6 +196,7 @@ public class AdaptiveQuizService : IAdaptiveQuizService
             Difficulty = adaptiveRequest.Difficulty.Value,
             Language = adaptiveRequest.Language.Name,
             Questions = questionDtos,
+            TotalQuestionsInSession = session.Questions.Count,
             CreatedAt = adaptiveRequest.CreatedAt,
             KeywordsUsed = keywordsUsed,
             UserInterestsApplied = adaptiveRequest.UserInterests,

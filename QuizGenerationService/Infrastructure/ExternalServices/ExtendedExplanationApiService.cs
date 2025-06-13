@@ -210,7 +210,22 @@ public class ExtendedExplanationApiService
             }
         }
 
-        return content;
+        // Try to fix common JSON issues from Gemini
+        try
+        {
+            // First try to parse as-is
+            JsonDocument.Parse(content);
+            return content;
+        }
+        catch (JsonException)
+        {
+            // If parsing fails, try to fix common issues
+            content = System.Text.RegularExpressions.Regex.Replace(content, 
+                @"(?<!\\)""([^""]*?)(?<!\\)\n([^""]*?)(?<!\\)""", 
+                m => $"\"{m.Groups[1].Value.Replace("\n", "\\n")}{m.Groups[2].Value.Replace("\n", "\\n")}\"");
+            
+            return content;
+        }
     }
 
     private class GeminiResponse
