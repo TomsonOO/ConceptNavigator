@@ -2,6 +2,7 @@ namespace QuizGenerationService.Application.DTOs;
 
 public class QuizResponseDto
 {
+    public string SessionId { get; set; } = string.Empty;
     public string Topic { get; set; } = string.Empty;
     public string? Book { get; set; }
     public string QuestionType { get; set; } = string.Empty;
