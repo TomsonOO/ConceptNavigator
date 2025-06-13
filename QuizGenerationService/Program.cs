@@ -5,17 +5,38 @@ using QuizGenerationService.Application.Validation;
 using QuizGenerationService.Domain.Interfaces;
 using QuizGenerationService.Infrastructure.ExternalServices;
 using QuizGenerationService.Infrastructure.Factories;
+using QuizGenerationService.Infrastructure.JsonConverters;
 using QuizGenerationService.Infrastructure.PromptBuilding;
 using QuizGenerationService.Infrastructure.SessionStorage;
 using QuizGenerationService.Infrastructure.Strategies;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(new SessionIdJsonConverter());
+        options.JsonSerializerOptions.Converters.Add(new QuestionIdJsonConverter());
+        options.JsonSerializerOptions.Converters.Add(new InterestRatingJsonConverter());
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 builder.Services.AddHttpClient<GeminiApiService>();
 builder.Services.AddHttpClient<ExtendedExplanationApiService>();
@@ -58,6 +79,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 app.MapControllers();

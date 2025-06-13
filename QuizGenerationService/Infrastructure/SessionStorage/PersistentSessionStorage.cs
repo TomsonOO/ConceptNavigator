@@ -2,6 +2,7 @@ using System.Text.Json;
 using QuizGenerationService.Domain.Interfaces;
 using QuizGenerationService.Domain.Models;
 using QuizGenerationService.Domain.ValueObjects;
+using QuizGenerationService.Infrastructure.JsonConverters;
 
 namespace QuizGenerationService.Infrastructure.SessionStorage;
 
