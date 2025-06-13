@@ -43,7 +43,7 @@
     </div>
     
     <div *ngIf="showAnswer" class="answer-reveal rounded-xl p-4 w-full">
-      <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-3 mb-4">
         <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center">
           <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -54,6 +54,73 @@
           <span class="text-emerald-800 font-bold ml-2">
             {{ question.options[question.correctAnswerIndex] }}
           </span>
+        </div>
+      </div>
+
+      <div *ngIf="question.explanation" class="mb-4 p-3 bg-blue-50 rounded-lg">
+        <p class="text-gray-700 text-sm leading-relaxed">{{ question.explanation }}</p>
+      </div>
+
+      <div class="mb-4 flex flex-wrap gap-3">
+        <button *ngIf="showRateButton"
+                (click)="showRatingOptions()"
+                class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 text-sm">
+          Rate Question
+        </button>
+
+        <button (click)="requestExtendedExplanation()"
+                [disabled]="loadingExplanation || extendedExplanation"
+                class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          <span *ngIf="!loadingExplanation && !extendedExplanation">Get Detailed Explanation</span>
+          <span *ngIf="loadingExplanation">Loading...</span>
+          <span *ngIf="extendedExplanation">Explanation Loaded</span>
+        </button>
+      </div>
+
+      <div *ngIf="showInterestRating" class="mb-4 p-4 bg-gray-50 rounded-xl">
+        <h4 class="text-sm font-semibold text-gray-700 mb-3">How interesting was this question?</h4>
+        <div class="flex flex-wrap gap-2">
+          <button *ngFor="let rating of [1,2,3,4,5,6,7,8,9,10]"
+                  (click)="rateInterest(rating)"
+                  class="w-8 h-8 rounded-full text-sm font-medium transition-colors cursor-pointer bg-gray-200 hover:bg-blue-500 hover:text-white">
+            {{ rating }}
+          </button>
+        </div>
+        <p class="text-xs text-gray-500 mt-2">Click a number from 1 (not interesting) to 10 (very interesting)</p>
+      </div>
+
+      <div *ngIf="interestRating" class="mb-4 p-3 bg-green-50 rounded-lg">
+        <p class="text-green-800 text-sm">
+          <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          You rated this question {{ interestRating }}/10
+        </p>
+      </div>
+
+      <div *ngIf="extendedExplanation" class="mt-4 p-4 bg-gray-50 rounded-xl">
+        <h4 class="font-semibold text-gray-800 mb-3">Detailed Explanation</h4>
+        <div class="prose prose-sm max-w-none">
+          <p class="mb-4 text-gray-700 leading-relaxed">{{ extendedExplanation.mainExplanation }}</p>
+          <div *ngFor="let paragraph of extendedExplanation.detailedParagraphs" class="mb-3">
+            <p class="text-gray-700 leading-relaxed">{{ paragraph }}</p>
+          </div>
+        </div>
+        
+        <div *ngIf="extendedExplanation.suggestedSources.length > 0" class="mt-4 pt-4 border-t border-gray-200">
+          <h5 class="font-medium text-gray-700 mb-2">Suggested Reading</h5>
+          <ul class="space-y-2">
+            <li *ngFor="let source of extendedExplanation.suggestedSources" class="text-sm">
+              <div class="flex items-start space-x-2">
+                <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <strong class="text-gray-800">{{ source.title }}</strong> 
+                  <span class="text-gray-600">by {{ source.author }}</span>
+                  <div *ngIf="source.description" class="text-gray-600 text-xs mt-1">{{ source.description }}</div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

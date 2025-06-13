@@ -1,0 +1,81 @@
+<div *ngIf="session" class="glass-effect rounded-2xl p-6 mb-6">
+  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+    <div class="flex-1">
+      <div class="flex items-center space-x-3 mb-2">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl font-semibold text-white">{{ session.sessionName || 'Quiz Session' }}</h3>
+      </div>
+      
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+        <div class="text-white/80">
+          <span class="block font-medium">Topic</span>
+          <span class="text-white">{{ session.topic }}</span>
+        </div>
+        <div class="text-white/80">
+          <span class="block font-medium">Progress</span>
+          <span class="text-white">{{ session.answeredQuestions }}/{{ session.totalQuestions }}</span>
+        </div>
+        <div class="text-white/80">
+          <span class="block font-medium">Score</span>
+          <span class="text-white">{{ (session.averageScore * 100).toFixed(0) }}%</span>
+        </div>
+        <div class="text-white/80">
+          <span class="block font-medium">Interest</span>
+          <span class="text-white">{{ session.averageInterestRating.toFixed(1) }}/10</span>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <div class="flex items-center justify-between text-sm text-white/80 mb-1">
+          <span>Progress</span>
+          <span>{{ getProgressPercentage() }}%</span>
+        </div>
+        <div class="w-full bg-white/20 rounded-full h-2">
+          <div class="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-300"
+               [style.width.%]="getProgressPercentage()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+      <button (click)="onGenerateMore()"
+              class="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-800 transition-all duration-200 text-sm">
+        Generate {{ moreQuestionsCount }} More
+      </button>
+      
+      <button (click)="showSaveDialog = true"
+              class="bg-gradient-to-r from-green-600 to-teal-700 text-white px-4 py-2 rounded-lg font-medium hover:from-green-700 hover:to-teal-800 transition-all duration-200 text-sm">
+        Save Session
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showSaveDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">Save Session</h3>
+    
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2">Session Name (Optional)</label>
+      <input type="text" 
+             [(ngModel)]="sessionName" 
+             placeholder="My Philosophy Session"
+             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    </div>
+    
+    <div class="flex space-x-3">
+      <button (click)="onSaveSession()"
+              class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+        Save
+      </button>
+      <button (click)="showSaveDialog = false; sessionName = ''"
+              class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-400 transition-colors">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div> 

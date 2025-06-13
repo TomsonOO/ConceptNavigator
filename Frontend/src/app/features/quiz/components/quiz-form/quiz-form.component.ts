@@ -10,9 +10,11 @@ export class QuizFormComponent {
   @Output() generateQuiz = new EventEmitter<QuizRequest>();
 
   topic = '';
-  difficulty = 'medium';
+  book = '';
+  questionType = 'Basic';
+  difficulty = 'Medium';
   questionCount = 5;
-  language = 'polish';
+  language = 'English';
   loading = false;
 
   onGenerateQuiz() {
@@ -20,6 +22,8 @@ export class QuizFormComponent {
     
     const request: QuizRequest = {
       topic: this.topic,
+      book: this.book || undefined,
+      questionType: this.questionType,
       difficulty: this.difficulty,
       questionCount: this.questionCount,
       language: this.language

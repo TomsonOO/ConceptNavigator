@@ -25,9 +25,24 @@
 
       <main class="space-y-8">
         <app-quiz-form (generateQuiz)="onGenerateQuiz($event)"></app-quiz-form>
-        
-        <div *ngIf="quiz" class="animate-fade-in">
-          <app-quiz-display [quiz]="quiz"></app-quiz-display>
+
+        <app-session-header 
+          *ngIf="currentSession"
+          [session]="currentSession"
+          (saveSession)="onSaveSession($event)"
+          (generateMore)="onGenerateMoreQuestions($event)">
+        </app-session-header>
+
+        <div *ngIf="quiz" class="animate-fade-in space-y-6">
+          <app-quiz-question 
+            *ngFor="let question of quiz.questions; let i = index"
+            [question]="question"
+            [questionNumber]="i + 1"
+            [sessionId]="sessionId!"
+            (answerRecorded)="onAnswerRecorded($event)"
+            (interestRated)="onInterestRated($event)"
+            (explainMoreRequested)="onExplainMoreRequested($event)">
+          </app-quiz-question>
         </div>
       </main>
     </div>
